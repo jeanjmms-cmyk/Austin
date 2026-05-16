@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Button, Table } from 'reactstrap';
+import { Button } from 'reactstrap';
 import { JhiItemCount, JhiPagination, Translate, getPaginationState } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSort, faSortDown, faSortUp } from '@fortawesome/free-solid-svg-icons';
@@ -9,6 +9,8 @@ import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-u
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { getEntities } from './cantor.reducer';
+
+const getCantorInitial = (nome?: string) => nome?.trim().charAt(0).toUpperCase() || 'C';
 
 export const Cantor = () => {
   const dispatch = useAppDispatch();
@@ -89,103 +91,108 @@ export const Cantor = () => {
   };
 
   return (
-    <div>
-      <h2 id="cantor-heading" data-cy="CantorHeading">
-        <Translate contentKey="agendaShowsApp.cantor.home.title">Cantors</Translate>
-        <div className="d-flex justify-content-end">
-          <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
+    <div className="cantor-page">
+      <div className="cantor-page__header">
+        <div>
+          <h2 id="cantor-heading" data-cy="CantorHeading" className="cantor-page__title">
+            <Translate contentKey="agendaShowsApp.cantor.home.title">Cantors</Translate>
+          </h2>
+          <div className="cantor-page__meta">
+            {totalItems ? (
+              <JhiItemCount page={paginationState.activePage} total={totalItems} itemsPerPage={paginationState.itemsPerPage} i18nEnabled />
+            ) : (
+              <Translate contentKey="agendaShowsApp.cantor.home.notFound">No Cantors found</Translate>
+            )}
+          </div>
+        </div>
+        <div className="cantor-page__actions">
+          <Button className="cantor-page__action" color="info" onClick={handleSyncList} disabled={loading}>
             <FontAwesomeIcon icon="sync" spin={loading} />{' '}
             <Translate contentKey="agendaShowsApp.cantor.home.refreshListLabel">Refresh List</Translate>
           </Button>
-          <Link to="/cantor/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
+          <Link
+            to="/cantor/new"
+            className="btn btn-primary jh-create-entity cantor-page__action"
+            id="jh-create-entity"
+            data-cy="entityCreateButton"
+          >
             <FontAwesomeIcon icon="plus" />
             &nbsp;
             <Translate contentKey="agendaShowsApp.cantor.home.createLabel">Create new Cantor</Translate>
           </Link>
         </div>
-      </h2>
-      <div className="table-responsive">
+      </div>
+
+      <div className="cantor-sort-bar" aria-label="Ordenar cantores">
+        {[
+          ['id', 'agendaShowsApp.cantor.id', 'ID'],
+          ['nome', 'agendaShowsApp.cantor.nome', 'Nome'],
+          ['generoMusical', 'agendaShowsApp.cantor.generoMusical', 'Genero Musical'],
+          ['ativo', 'agendaShowsApp.cantor.ativo', 'Ativo'],
+        ].map(([field, contentKey, label]) => (
+          <Button key={field} color="light" size="sm" className="cantor-sort-bar__button" onClick={sort(field)}>
+            <Translate contentKey={contentKey}>{label}</Translate> <FontAwesomeIcon icon={getSortIconByFieldName(field)} />
+          </Button>
+        ))}
+      </div>
+
+      <div>
         {cantorList && cantorList.length > 0 ? (
-          <Table responsive>
-            <thead>
-              <tr>
-                <th className="hand" onClick={sort('id')}>
-                  <Translate contentKey="agendaShowsApp.cantor.id">ID</Translate> <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
-                </th>
-                <th className="hand" onClick={sort('nome')}>
-                  <Translate contentKey="agendaShowsApp.cantor.nome">Nome</Translate>{' '}
-                  <FontAwesomeIcon icon={getSortIconByFieldName('nome')} />
-                </th>
-                <th className="hand" onClick={sort('generoMusical')}>
-                  <Translate contentKey="agendaShowsApp.cantor.generoMusical">Genero Musical</Translate>{' '}
-                  <FontAwesomeIcon icon={getSortIconByFieldName('generoMusical')} />
-                </th>
-                <th className="hand" onClick={sort('bio')}>
-                  <Translate contentKey="agendaShowsApp.cantor.bio">Bio</Translate> <FontAwesomeIcon icon={getSortIconByFieldName('bio')} />
-                </th>
-                <th className="hand" onClick={sort('fotoPerfil')}>
-                  <Translate contentKey="agendaShowsApp.cantor.fotoPerfil">Foto Perfil</Translate>{' '}
-                  <FontAwesomeIcon icon={getSortIconByFieldName('fotoPerfil')} />
-                </th>
-                <th className="hand" onClick={sort('ativo')}>
-                  <Translate contentKey="agendaShowsApp.cantor.ativo">Ativo</Translate>{' '}
-                  <FontAwesomeIcon icon={getSortIconByFieldName('ativo')} />
-                </th>
-                <th />
-              </tr>
-            </thead>
-            <tbody>
-              {cantorList.map((cantor, i) => (
-                <tr key={`entity-${i}`} data-cy="entityTable">
-                  <td>
-                    <Button tag={Link} to={`/cantor/${cantor.id}`} color="link" size="sm">
-                      {cantor.id}
-                    </Button>
-                  </td>
-                  <td>{cantor.nome}</td>
-                  <td>{cantor.generoMusical}</td>
-                  <td>{cantor.bio}</td>
-                  <td>{cantor.fotoPerfil}</td>
-                  <td>{cantor.ativo ? 'true' : 'false'}</td>
-                  <td className="text-end">
-                    <div className="btn-group flex-btn-group-container">
-                      <Button tag={Link} to={`/cantor/${cantor.id}`} color="info" size="sm" data-cy="entityDetailsButton">
-                        <FontAwesomeIcon icon="eye" />{' '}
-                        <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.view">View</Translate>
-                        </span>
-                      </Button>
-                      <Button
-                        tag={Link}
-                        to={`/cantor/${cantor.id}/edit?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
-                        color="primary"
-                        size="sm"
-                        data-cy="entityEditButton"
-                      >
-                        <FontAwesomeIcon icon="pencil-alt" />{' '}
-                        <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.edit">Edit</Translate>
-                        </span>
-                      </Button>
-                      <Button
-                        onClick={() =>
-                          (window.location.href = `/cantor/${cantor.id}/delete?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`)
-                        }
-                        color="danger"
-                        size="sm"
-                        data-cy="entityDeleteButton"
-                      >
-                        <FontAwesomeIcon icon="trash" />{' '}
-                        <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.delete">Delete</Translate>
-                        </span>
-                      </Button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+          <div className="cantor-grid">
+            {cantorList.map((cantor, i) => (
+              <article key={`entity-${i}`} className="cantor-card" data-cy="entityTable">
+                <div className="cantor-card__media">
+                  {cantor.fotoPerfil ? (
+                    <img className="cantor-card__photo" src={cantor.fotoPerfil} alt={cantor.nome || 'Cantor'} />
+                  ) : (
+                    <div className="cantor-card__avatar">{getCantorInitial(cantor.nome)}</div>
+                  )}
+                  <span className={`cantor-card__status ${cantor.ativo ? 'is-active' : 'is-inactive'}`}>
+                    {cantor.ativo ? 'Ativo' : 'Inativo'}
+                  </span>
+                </div>
+                <div className="cantor-card__body">
+                  <div className="cantor-card__eyebrow">#{cantor.id}</div>
+                  <h3 className="cantor-card__name">{cantor.nome}</h3>
+                  <div className="cantor-card__genre">{cantor.generoMusical || 'Genero nao informado'}</div>
+                  <p className="cantor-card__bio">{cantor.bio || 'Sem biografia cadastrada.'}</p>
+                </div>
+                <div className="cantor-card__actions">
+                  <Button tag={Link} to={`/cantor/${cantor.id}`} color="info" size="sm" data-cy="entityDetailsButton">
+                    <FontAwesomeIcon icon="eye" />{' '}
+                    <span>
+                      <Translate contentKey="entity.action.view">View</Translate>
+                    </span>
+                  </Button>
+                  <Button
+                    tag={Link}
+                    to={`/cantor/${cantor.id}/edit?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
+                    color="primary"
+                    size="sm"
+                    data-cy="entityEditButton"
+                  >
+                    <FontAwesomeIcon icon="pencil-alt" />{' '}
+                    <span>
+                      <Translate contentKey="entity.action.edit">Edit</Translate>
+                    </span>
+                  </Button>
+                  <Button
+                    onClick={() =>
+                      (window.location.href = `/cantor/${cantor.id}/delete?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`)
+                    }
+                    color="danger"
+                    size="sm"
+                    data-cy="entityDeleteButton"
+                  >
+                    <FontAwesomeIcon icon="trash" />{' '}
+                    <span>
+                      <Translate contentKey="entity.action.delete">Delete</Translate>
+                    </span>
+                  </Button>
+                </div>
+              </article>
+            ))}
+          </div>
         ) : (
           !loading && (
             <div className="alert alert-warning">
@@ -196,10 +203,7 @@ export const Cantor = () => {
       </div>
       {totalItems ? (
         <div className={cantorList && cantorList.length > 0 ? '' : 'd-none'}>
-          <div className="justify-content-center d-flex">
-            <JhiItemCount page={paginationState.activePage} total={totalItems} itemsPerPage={paginationState.itemsPerPage} i18nEnabled />
-          </div>
-          <div className="justify-content-center d-flex">
+          <div className="cantor-pagination">
             <JhiPagination
               activePage={paginationState.activePage}
               onSelect={handlePagination}
