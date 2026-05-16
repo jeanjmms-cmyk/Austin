@@ -1,0 +1,52 @@
+{
+  "annotations": {
+    "changelogDate": "20260516133538"
+  },
+  "applications": ["agendaShows"],
+  "documentation": "Show / Apresentação",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "local",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "minlength", "maxlength"],
+      "fieldValidateRulesMaxlength": "200",
+      "fieldValidateRulesMinlength": "3"
+    },
+    {
+      "fieldName": "dataShow",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "horarioInicio",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "observacoes",
+      "fieldType": "TextBlob"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "StatusShow",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "AGENDADO,CONFIRMADO,CANCELADO,REALIZADO"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "Show",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "nome",
+      "otherEntityName": "cantor",
+      "relationshipName": "cantor",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

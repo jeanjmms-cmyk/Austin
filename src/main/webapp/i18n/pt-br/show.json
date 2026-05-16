@@ -1,0 +1,29 @@
+{
+  "agendaShowsApp": {
+    "show": {
+      "home": {
+        "title": "Shows",
+        "refreshListLabel": "Atualizar lista",
+        "createLabel": "Criar novo Show",
+        "createOrEditLabel": "Criar ou editar Show",
+        "notFound": "Nenhum Show encontrado"
+      },
+      "created": "Um novo Show foi criado com o identificador {{ param }}",
+      "updated": "Um Show foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Show foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Show {{ id }}?"
+      },
+      "detail": {
+        "title": "Show"
+      },
+      "id": "ID",
+      "local": "Local",
+      "dataShow": "Data Show",
+      "horarioInicio": "Horario Inicio",
+      "observacoes": "Observacoes",
+      "status": "Status",
+      "cantor": "Cantor"
+    }
+  }
+}

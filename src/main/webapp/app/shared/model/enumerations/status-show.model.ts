@@ -1,0 +1,9 @@
+export enum StatusShow {
+  AGENDADO = 'AGENDADO',
+
+  CONFIRMADO = 'CONFIRMADO',
+
+  CANCELADO = 'CANCELADO',
+
+  REALIZADO = 'REALIZADO',
+}

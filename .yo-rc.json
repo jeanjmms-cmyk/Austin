@@ -1,0 +1,22 @@
+{
+  "generator-jhipster": {
+    "applicationType": "monolith",
+    "authenticationType": "jwt",
+    "baseName": "agendaShows",
+    "buildTool": "maven",
+    "clientFramework": "react",
+    "clientPackageManager": "npm",
+    "databaseType": "sql",
+    "devDatabaseType": "h2Disk",
+    "enableSwaggerCodegen": true,
+    "entities": ["Cantor", "Show"],
+    "jhipsterVersion": "8.11.0",
+    "jwtSecretKey": "ZjExMGY3YjFlYjMwZWI2MDRlZDVjMDM3ZDRmOTBhMWEwMDkyMzBjZmQ0YWMwNzZiODkzMmFiZTI5ZTE4MjYxMzUxNTBmNzk5MjRjZjBhYzA3ZjJiZWZkYTAwYTFkZTIzNmM4MTgzNjkzNmMwOTU2ZWJmYTY1ODkwNTE0OGU3MWE=",
+    "languages": ["pt-br", "en"],
+    "lastLiquibaseTimestamp": 1778938538000,
+    "nativeLanguage": "pt-br",
+    "packageName": "com.agendashows",
+    "prodDatabaseType": "postgresql",
+    "testFrameworks": ["cypress"]
+  }
+}

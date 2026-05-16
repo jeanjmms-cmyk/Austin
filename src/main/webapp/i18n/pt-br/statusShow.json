@@ -1,0 +1,11 @@
+{
+  "agendaShowsApp": {
+    "StatusShow": {
+      "null": "",
+      "AGENDADO": "AGENDADO",
+      "CONFIRMADO": "CONFIRMADO",
+      "CANCELADO": "CANCELADO",
+      "REALIZADO": "REALIZADO"
+    }
+  }
+}

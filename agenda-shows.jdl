@@ -1,0 +1,105 @@
+/**
+ * ============================================================
+ *  AGENDA DE APRESENTAÇÕES — JDL Schema
+ *  JHipster Domain Language
+ * ============================================================
+ */
+
+// ─────────────────────────────────────────────
+// ENTIDADES
+// ─────────────────────────────────────────────
+
+/**
+ * Cantor / Artista
+ */
+entity Cantor {
+    nome        String  required minlength(2) maxlength(100)
+    generoMusical String maxlength(60)
+    bio         TextBlob
+    fotoPerfil  String maxlength(255)  // URL ou path da imagem
+    ativo       Boolean required
+}
+
+/**
+ * Show / Apresentação
+ */
+entity Show {
+    local       String  required minlength(3) maxlength(200)
+    dataShow    LocalDate required
+    horarioInicio Instant required
+    observacoes TextBlob
+    status      StatusShow required
+}
+
+// ─────────────────────────────────────────────
+// ENUMS
+// ─────────────────────────────────────────────
+
+enum StatusShow {
+    AGENDADO,
+    CONFIRMADO,
+    CANCELADO,
+    REALIZADO
+}
+
+// ─────────────────────────────────────────────
+// RELACIONAMENTOS
+// ─────────────────────────────────────────────
+
+/**
+ * Um Cantor pode ter vários Shows (OneToMany)
+ * Cada Show pertence a um Cantor (ManyToOne) — obrigatório
+ */
+relationship ManyToOne {
+    Show{cantor(nome) required} to Cantor
+}
+
+// ─────────────────────────────────────────────
+// DTOs  (MapStruct)
+// ─────────────────────────────────────────────
+
+dto Cantor, Show with mapstruct
+
+// ─────────────────────────────────────────────
+// SERVICE LAYER
+// ─────────────────────────────────────────────
+
+service Cantor, Show with serviceImpl
+
+// ─────────────────────────────────────────────
+// PAGINAÇÃO
+// ─────────────────────────────────────────────
+
+paginate Cantor with pagination
+paginate Show   with pagination
+
+// ─────────────────────────────────────────────
+// FILTROS  (Spring Filter)
+// ─────────────────────────────────────────────
+
+filter Cantor
+filter Show
+
+// ─────────────────────────────────────────────
+// CONFIGURAÇÃO DE APLICAÇÃO (app config)
+// ─────────────────────────────────────────────
+
+application {
+    config {
+        baseName                agendaShows
+        applicationType         monolith
+        packageName             com.agendashows
+        authenticationType      jwt
+        databaseType            sql
+        prodDatabaseType        postgresql
+        devDatabaseType         h2Disk
+        clientFramework         react
+        clientPackageManager    npm
+        buildTool               maven
+        languages               [pt-br, en]
+        nativeLanguage          pt-br
+        enableSwaggerCodegen    true
+        testFrameworks          [cypress]
+    }
+    entities Cantor, Show
+}

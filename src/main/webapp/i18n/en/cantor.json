@@ -1,0 +1,28 @@
+{
+  "agendaShowsApp": {
+    "cantor": {
+      "home": {
+        "title": "Cantors",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Cantor",
+        "createOrEditLabel": "Create or edit a Cantor",
+        "notFound": "No Cantors found"
+      },
+      "created": "A new Cantor is created with identifier {{ param }}",
+      "updated": "A Cantor is updated with identifier {{ param }}",
+      "deleted": "A Cantor is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Cantor {{ id }}?"
+      },
+      "detail": {
+        "title": "Cantor"
+      },
+      "id": "ID",
+      "nome": "Nome",
+      "generoMusical": "Genero Musical",
+      "bio": "Bio",
+      "fotoPerfil": "Foto Perfil",
+      "ativo": "Ativo"
+    }
+  }
+}

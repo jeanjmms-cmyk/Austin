@@ -1,0 +1,28 @@
+{
+  "agendaShowsApp": {
+    "cantor": {
+      "home": {
+        "title": "Cantors",
+        "refreshListLabel": "Atualizar lista",
+        "createLabel": "Criar novo Cantor",
+        "createOrEditLabel": "Criar ou editar Cantor",
+        "notFound": "Nenhum Cantor encontrado"
+      },
+      "created": "Um novo Cantor foi criado com o identificador {{ param }}",
+      "updated": "Um Cantor foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Cantor foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Cantor {{ id }}?"
+      },
+      "detail": {
+        "title": "Cantor"
+      },
+      "id": "ID",
+      "nome": "Nome",
+      "generoMusical": "Genero Musical",
+      "bio": "Bio",
+      "fotoPerfil": "Foto Perfil",
+      "ativo": "Ativo"
+    }
+  }
+}
