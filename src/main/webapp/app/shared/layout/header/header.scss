@@ -1,5 +1,5 @@
-$header-color: #fff;
-$header-color-secondary: #bbb;
+$header-color: #24304f;
+$header-color-secondary: #6d7588;
 $header-color-hover: darken($header-color, 20%);
 
 /* ==========================================================================
@@ -38,8 +38,10 @@ Development Ribbon
 Navbar styles
 ========================================================================== */
 .jh-navbar {
-  background-color: #353d47;
-  padding: 0.2em 1em;
+  background-color: #8a8a8d;
+  border-bottom: 1px solid #e1ded4;
+  box-shadow: 0 6px 18px rgba(31, 41, 55, 0.08);
+  padding: 0.35rem 1rem;
   .profile-image {
     margin: -10px 0;
     height: 40px;
@@ -49,7 +51,7 @@ Navbar styles
   .dropdown-item.active,
   .dropdown-item.active:focus,
   .dropdown-item.active:hover {
-    background-color: #353d47;
+    background-color: #5962ad;
   }
   .dropdown-toggle::after {
     margin-left: 0.15em;
@@ -61,17 +63,22 @@ Navbar styles
     }
   }
   a.nav-link {
+    color: #24304f;
     font-weight: 400;
     > span {
       margin-left: 5px;
     }
+    &:hover,
+    &:focus {
+      color: #991b1f;
+    }
   }
   .jh-navbar-toggler {
-    color: #ccc;
+    color: #24304f;
     font-size: 1.5em;
     padding: 10px;
     &:hover {
-      color: #fff;
+      color: #991b1f;
     }
   }
 }
@@ -82,6 +89,7 @@ Navbar styles
 .jh-navbar .navbar-nav .nav-link {
   padding-right: 0;
   padding-left: 0;
+  color: #24304f;
 }
 
 .navbar-version {
@@ -91,15 +99,22 @@ Navbar styles
 }
 
 .brand-logo {
+  align-items: center;
+  display: flex;
+  min-height: 48px;
   &:hover {
     text-decoration: none;
   }
   .brand-icon {
-    height: 35px;
-    width: auto;
     display: inline-block;
+    height: 48px;
+    width: 180px;
     img {
-      width: 45px;
+      display: block;
+      height: 100%;
+      object-fit: contain;
+      object-position: left center;
+      width: 100%;
     }
   }
 }
@@ -116,8 +131,19 @@ Navbar styles
 
 .loading-bar {
   height: 3px;
-  background-color: #009cd8;
+  background-color: #991b1f;
   position: absolute;
   top: 0;
   z-index: 1031;
+}
+
+@media (max-width: 767.98px) {
+  .brand-logo .brand-icon {
+    height: 42px;
+    width: 150px;
+  }
+
+  .jh-navbar ul.navbar-nav .nav-item {
+    margin-left: 0;
+  }
 }

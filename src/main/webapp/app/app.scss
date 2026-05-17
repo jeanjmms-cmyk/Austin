@@ -279,6 +279,383 @@ a.anchor-btn:hover {
 }
 
 /* ==========================================================================
+Cantor entity
+========================================================================== */
+
+.cantor-page,
+.cantor-form-page {
+  color: #1f2933;
+}
+
+.cantor-page__header {
+  align-items: flex-start;
+  border-bottom: 1px solid #d7dee8;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+}
+
+.cantor-page__title {
+  font-size: 1.9rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.cantor-page__meta {
+  color: #65758b;
+  font-size: 0.95rem;
+  margin-top: 0.35rem;
+}
+
+.cantor-page__actions,
+.cantor-card__actions,
+.cantor-profile__actions,
+.cantor-form__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.cantor-page__action {
+  white-space: nowrap;
+}
+
+.cantor-sort-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.cantor-sort-bar__button {
+  border-color: #ccd6e3;
+  color: #334155;
+}
+
+.cantor-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+
+.cantor-card {
+  background: #ffffff;
+  border: 1px solid #d7dee8;
+  border-radius: 8px;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  overflow: hidden;
+}
+
+.cantor-card__media {
+  background: linear-gradient(135deg, #18324a, #28666e);
+  min-height: 132px;
+  position: relative;
+}
+
+.cantor-card__photo {
+  height: 132px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.cantor-card__avatar,
+.cantor-profile__avatar {
+  align-items: center;
+  background: #f3c969;
+  color: #202124;
+  display: flex;
+  font-weight: 800;
+  justify-content: center;
+}
+
+.cantor-card__avatar {
+  font-size: 3rem;
+  height: 132px;
+  width: 100%;
+}
+
+.cantor-card__status {
+  background: #64748b;
+  border-radius: 999px;
+  bottom: 0.75rem;
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  padding: 0.25rem 0.65rem;
+  position: absolute;
+  right: 0.75rem;
+}
+
+.cantor-card__status.is-active,
+.cantor-profile__chip.is-active {
+  background: #0f766e;
+  color: #ffffff;
+}
+
+.cantor-card__status.is-inactive,
+.cantor-profile__chip.is-inactive {
+  background: #9f1239;
+  color: #ffffff;
+}
+
+.cantor-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.cantor-card__eyebrow,
+.cantor-profile__label {
+  color: #64748b;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.cantor-card__name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 0.2rem 0 0.25rem;
+  overflow-wrap: anywhere;
+}
+
+.cantor-card__genre {
+  color: #28666e;
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.cantor-card__bio {
+  color: #526173;
+  display: -webkit-box;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  margin: 0;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.cantor-card__actions {
+  border-top: 1px solid #e4e9f0;
+  padding: 0.85rem 1rem 1rem;
+}
+
+.cantor-pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.25rem;
+}
+
+.cantor-profile,
+.cantor-form {
+  background: #ffffff;
+  border: 1px solid #d7dee8;
+  border-radius: 8px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.07);
+}
+
+.cantor-profile {
+  overflow: hidden;
+}
+
+.cantor-profile__hero {
+  align-items: center;
+  background: #f6f8fb;
+  border-bottom: 1px solid #d7dee8;
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 180px 1fr;
+  padding: 1.5rem;
+}
+
+.cantor-profile__photo-wrap {
+  border-radius: 8px;
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.12);
+  height: 180px;
+  overflow: hidden;
+  width: 180px;
+}
+
+.cantor-profile__photo {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.cantor-profile__avatar {
+  font-size: 4rem;
+  height: 100%;
+  width: 100%;
+}
+
+.cantor-profile__name {
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin: 0.25rem 0 0.8rem;
+  overflow-wrap: anywhere;
+}
+
+.cantor-profile__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.cantor-profile__chip {
+  background: #e8eef6;
+  border-radius: 999px;
+  color: #334155;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 0.35rem 0.75rem;
+}
+
+.cantor-profile__content {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: minmax(0, 1.1fr) minmax(260px, 0.9fr);
+  padding: 1.5rem;
+}
+
+.cantor-profile__section h3 {
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin: 0 0 0.5rem;
+}
+
+.cantor-profile__section p {
+  color: #526173;
+  line-height: 1.6;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.cantor-profile__details {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.cantor-profile__details div {
+  border-bottom: 1px solid #e4e9f0;
+  padding-bottom: 0.75rem;
+}
+
+.cantor-profile__details dt {
+  color: #64748b;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+}
+
+.cantor-profile__details dd {
+  color: #1f2933;
+  font-weight: 700;
+  margin: 0.2rem 0 0;
+}
+
+.cantor-profile__actions {
+  border-top: 1px solid #e4e9f0;
+  padding: 1rem 1.5rem 1.5rem;
+}
+
+.cantor-form-page__header {
+  align-items: center;
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.cantor-form-page__header h2 {
+  font-size: 1.7rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.cantor-form-page__icon {
+  align-items: center;
+  background: #18324a;
+  border-radius: 8px;
+  color: #ffffff;
+  display: flex;
+  height: 44px;
+  justify-content: center;
+  width: 44px;
+}
+
+.cantor-form {
+  padding: 1.25rem;
+}
+
+.cantor-form__grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.cantor-form textarea {
+  min-height: 150px;
+}
+
+.cantor-form__active {
+  background: #f6f8fb;
+  border: 1px solid #d7dee8;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  padding: 0.8rem 1rem 0.35rem;
+}
+
+.cantor-form__actions {
+  border-top: 1px solid #e4e9f0;
+  padding-top: 1rem;
+}
+
+@media (max-width: 767.98px) {
+  .cantor-page__header,
+  .cantor-profile__hero {
+    display: block;
+  }
+
+  .cantor-page__actions {
+    margin-top: 1rem;
+  }
+
+  .cantor-page__action,
+  .cantor-card__actions .btn,
+  .cantor-profile__actions .btn,
+  .cantor-form__actions .btn {
+    width: 100%;
+  }
+
+  .cantor-profile__photo-wrap {
+    height: 150px;
+    margin-bottom: 1rem;
+    width: 150px;
+  }
+
+  .cantor-profile__content,
+  .cantor-form__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cantor-profile__name {
+    font-size: 1.8rem;
+  }
+}
+
+/* ==========================================================================
 Metrics and Health styles
 ========================================================================== */
 

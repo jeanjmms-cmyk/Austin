@@ -8,6 +8,8 @@ import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { getEntity } from './cantor.reducer';
 
+const getCantorInitial = (nome?: string) => nome?.trim().charAt(0).toUpperCase() || 'C';
+
 export const CantorDetail = () => {
   const dispatch = useAppDispatch();
 
@@ -19,62 +21,82 @@ export const CantorDetail = () => {
 
   const cantorEntity = useAppSelector(state => state.cantor.entity);
   return (
-    <Row>
-      <Col md="8">
-        <h2 data-cy="cantorDetailsHeading">
-          <Translate contentKey="agendaShowsApp.cantor.detail.title">Cantor</Translate>
-        </h2>
-        <dl className="jh-entity-details">
-          <dt>
-            <span id="id">
-              <Translate contentKey="global.field.id">ID</Translate>
-            </span>
-          </dt>
-          <dd>{cantorEntity.id}</dd>
-          <dt>
-            <span id="nome">
-              <Translate contentKey="agendaShowsApp.cantor.nome">Nome</Translate>
-            </span>
-          </dt>
-          <dd>{cantorEntity.nome}</dd>
-          <dt>
-            <span id="generoMusical">
-              <Translate contentKey="agendaShowsApp.cantor.generoMusical">Genero Musical</Translate>
-            </span>
-          </dt>
-          <dd>{cantorEntity.generoMusical}</dd>
-          <dt>
-            <span id="bio">
-              <Translate contentKey="agendaShowsApp.cantor.bio">Bio</Translate>
-            </span>
-          </dt>
-          <dd>{cantorEntity.bio}</dd>
-          <dt>
-            <span id="fotoPerfil">
-              <Translate contentKey="agendaShowsApp.cantor.fotoPerfil">Foto Perfil</Translate>
-            </span>
-          </dt>
-          <dd>{cantorEntity.fotoPerfil}</dd>
-          <dt>
-            <span id="ativo">
-              <Translate contentKey="agendaShowsApp.cantor.ativo">Ativo</Translate>
-            </span>
-          </dt>
-          <dd>{cantorEntity.ativo ? 'true' : 'false'}</dd>
-        </dl>
-        <Button tag={Link} to="/cantor" replace color="info" data-cy="entityDetailsBackButton">
-          <FontAwesomeIcon icon="arrow-left" />{' '}
-          <span className="d-none d-md-inline">
-            <Translate contentKey="entity.action.back">Back</Translate>
-          </span>
-        </Button>
-        &nbsp;
-        <Button tag={Link} to={`/cantor/${cantorEntity.id}/edit`} replace color="primary">
-          <FontAwesomeIcon icon="pencil-alt" />{' '}
-          <span className="d-none d-md-inline">
-            <Translate contentKey="entity.action.edit">Edit</Translate>
-          </span>
-        </Button>
+    <Row className="justify-content-center">
+      <Col lg="10">
+        <section className="cantor-profile" data-cy="cantorDetailsHeading">
+          <div className="cantor-profile__hero">
+            <div className="cantor-profile__photo-wrap">
+              {cantorEntity.fotoPerfil ? (
+                <img className="cantor-profile__photo" src={cantorEntity.fotoPerfil} alt={cantorEntity.nome || 'Cantor'} />
+              ) : (
+                <div className="cantor-profile__avatar">{getCantorInitial(cantorEntity.nome)}</div>
+              )}
+            </div>
+            <div className="cantor-profile__summary">
+              <div className="cantor-profile__label">
+                <Translate contentKey="agendaShowsApp.cantor.detail.title">Cantor</Translate> #{cantorEntity.id}
+              </div>
+              <h2 className="cantor-profile__name">{cantorEntity.nome}</h2>
+              <div className="cantor-profile__chips">
+                <span className="cantor-profile__chip">{cantorEntity.generoMusical || 'Genero nao informado'}</span>
+                <span className={`cantor-profile__chip ${cantorEntity.ativo ? 'is-active' : 'is-inactive'}`}>
+                  {cantorEntity.ativo ? 'Ativo' : 'Inativo'}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="cantor-profile__content">
+            <div className="cantor-profile__section">
+              <h3>
+                <Translate contentKey="agendaShowsApp.cantor.bio">Bio</Translate>
+              </h3>
+              <p>{cantorEntity.bio || 'Sem biografia cadastrada.'}</p>
+            </div>
+
+            <dl className="cantor-profile__details">
+              <div>
+                <dt>
+                  <Translate contentKey="agendaShowsApp.cantor.nome">Nome</Translate>
+                </dt>
+                <dd>{cantorEntity.nome || '-'}</dd>
+              </div>
+              <div>
+                <dt>
+                  <Translate contentKey="agendaShowsApp.cantor.generoMusical">Genero Musical</Translate>
+                </dt>
+                <dd>{cantorEntity.generoMusical || '-'}</dd>
+              </div>
+              <div>
+                <dt>
+                  <Translate contentKey="agendaShowsApp.cantor.fotoPerfil">Foto Perfil</Translate>
+                </dt>
+                <dd className="break-word">{cantorEntity.fotoPerfil || '-'}</dd>
+              </div>
+              <div>
+                <dt>
+                  <Translate contentKey="agendaShowsApp.cantor.ativo">Ativo</Translate>
+                </dt>
+                <dd>{cantorEntity.ativo ? 'Ativo' : 'Inativo'}</dd>
+              </div>
+            </dl>
+          </div>
+
+          <div className="cantor-profile__actions">
+            <Button tag={Link} to="/cantor" replace color="info" data-cy="entityDetailsBackButton">
+              <FontAwesomeIcon icon="arrow-left" />{' '}
+              <span>
+                <Translate contentKey="entity.action.back">Back</Translate>
+              </span>
+            </Button>
+            <Button tag={Link} to={`/cantor/${cantorEntity.id}/edit`} replace color="primary">
+              <FontAwesomeIcon icon="pencil-alt" />{' '}
+              <span>
+                <Translate contentKey="entity.action.edit">Edit</Translate>
+              </span>
+            </Button>
+          </div>
+        </section>
       </Col>
     </Row>
   );

@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Col, Row } from 'reactstrap';
 import { Translate, ValidatedField, ValidatedForm, translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMicrophone } from '@fortawesome/free-solid-svg-icons';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
@@ -64,20 +65,25 @@ export const CantorUpdate = () => {
         };
 
   return (
-    <div>
+    <div className="cantor-form-page">
       <Row className="justify-content-center">
-        <Col md="8">
-          <h2 id="agendaShowsApp.cantor.home.createOrEditLabel" data-cy="CantorCreateUpdateHeading">
-            <Translate contentKey="agendaShowsApp.cantor.home.createOrEditLabel">Create or edit a Cantor</Translate>
-          </h2>
+        <Col lg="8">
+          <div className="cantor-form-page__header">
+            <div className="cantor-form-page__icon">
+              <FontAwesomeIcon icon={faMicrophone} />
+            </div>
+            <h2 id="agendaShowsApp.cantor.home.createOrEditLabel" data-cy="CantorCreateUpdateHeading">
+              <Translate contentKey="agendaShowsApp.cantor.home.createOrEditLabel">Create or edit a Cantor</Translate>
+            </h2>
+          </div>
         </Col>
       </Row>
       <Row className="justify-content-center">
-        <Col md="8">
+        <Col lg="8">
           {loading ? (
             <p>Loading...</p>
           ) : (
-            <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity}>
+            <ValidatedForm className="cantor-form" defaultValues={defaultValues()} onSubmit={saveEntity}>
               {!isNew ? (
                 <ValidatedField
                   name="id"
@@ -100,48 +106,53 @@ export const CantorUpdate = () => {
                   maxLength: { value: 100, message: translate('entity.validation.maxlength', { max: 100 }) },
                 }}
               />
-              <ValidatedField
-                label={translate('agendaShowsApp.cantor.generoMusical')}
-                id="cantor-generoMusical"
-                name="generoMusical"
-                data-cy="generoMusical"
-                type="text"
-                validate={{
-                  maxLength: { value: 60, message: translate('entity.validation.maxlength', { max: 60 }) },
-                }}
-              />
+              <div className="cantor-form__grid">
+                <ValidatedField
+                  label={translate('agendaShowsApp.cantor.generoMusical')}
+                  id="cantor-generoMusical"
+                  name="generoMusical"
+                  data-cy="generoMusical"
+                  type="text"
+                  validate={{
+                    maxLength: { value: 60, message: translate('entity.validation.maxlength', { max: 60 }) },
+                  }}
+                />
+                <ValidatedField
+                  label={translate('agendaShowsApp.cantor.fotoPerfil')}
+                  id="cantor-fotoPerfil"
+                  name="fotoPerfil"
+                  data-cy="fotoPerfil"
+                  type="text"
+                  validate={{
+                    maxLength: { value: 255, message: translate('entity.validation.maxlength', { max: 255 }) },
+                  }}
+                />
+              </div>
               <ValidatedField label={translate('agendaShowsApp.cantor.bio')} id="cantor-bio" name="bio" data-cy="bio" type="textarea" />
-              <ValidatedField
-                label={translate('agendaShowsApp.cantor.fotoPerfil')}
-                id="cantor-fotoPerfil"
-                name="fotoPerfil"
-                data-cy="fotoPerfil"
-                type="text"
-                validate={{
-                  maxLength: { value: 255, message: translate('entity.validation.maxlength', { max: 255 }) },
-                }}
-              />
-              <ValidatedField
-                label={translate('agendaShowsApp.cantor.ativo')}
-                id="cantor-ativo"
-                name="ativo"
-                data-cy="ativo"
-                check
-                type="checkbox"
-              />
-              <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/cantor" replace color="info">
-                <FontAwesomeIcon icon="arrow-left" />
-                &nbsp;
-                <span className="d-none d-md-inline">
-                  <Translate contentKey="entity.action.back">Back</Translate>
-                </span>
-              </Button>
-              &nbsp;
-              <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating}>
-                <FontAwesomeIcon icon="save" />
-                &nbsp;
-                <Translate contentKey="entity.action.save">Save</Translate>
-              </Button>
+              <div className="cantor-form__active">
+                <ValidatedField
+                  label={translate('agendaShowsApp.cantor.ativo')}
+                  id="cantor-ativo"
+                  name="ativo"
+                  data-cy="ativo"
+                  check
+                  type="checkbox"
+                />
+              </div>
+              <div className="cantor-form__actions">
+                <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/cantor" replace color="info">
+                  <FontAwesomeIcon icon="arrow-left" />
+                  &nbsp;
+                  <span>
+                    <Translate contentKey="entity.action.back">Back</Translate>
+                  </span>
+                </Button>
+                <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating}>
+                  <FontAwesomeIcon icon="save" />
+                  &nbsp;
+                  <Translate contentKey="entity.action.save">Save</Translate>
+                </Button>
+              </div>
             </ValidatedForm>
           )}
         </Col>
