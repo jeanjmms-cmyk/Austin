@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Col, FormText, Row } from 'reactstrap';
 import { Translate, ValidatedField, ValidatedForm, translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
 
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
@@ -69,6 +70,7 @@ export const ShowUpdate = () => {
     isNew
       ? {
           horarioInicio: displayDefaultDateTime(),
+          status: 'AGENDADO',
         }
       : {
           status: 'AGENDADO',
@@ -78,20 +80,25 @@ export const ShowUpdate = () => {
         };
 
   return (
-    <div>
+    <div className="show-form-page">
       <Row className="justify-content-center">
-        <Col md="8">
-          <h2 id="agendaShowsApp.show.home.createOrEditLabel" data-cy="ShowCreateUpdateHeading">
-            <Translate contentKey="agendaShowsApp.show.home.createOrEditLabel">Create or edit a Show</Translate>
-          </h2>
+        <Col lg="8">
+          <div className="show-form-page__header">
+            <div className="show-form-page__icon">
+              <FontAwesomeIcon icon={faCalendarDays} />
+            </div>
+            <h2 id="agendaShowsApp.show.home.createOrEditLabel" data-cy="ShowCreateUpdateHeading">
+              <Translate contentKey="agendaShowsApp.show.home.createOrEditLabel">Create or edit a Show</Translate>
+            </h2>
+          </div>
         </Col>
       </Row>
       <Row className="justify-content-center">
-        <Col md="8">
+        <Col lg="8">
           {loading ? (
             <p>Loading...</p>
           ) : (
-            <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity}>
+            <ValidatedForm className="show-form" defaultValues={defaultValues()} onSubmit={saveEntity}>
               {!isNew ? (
                 <ValidatedField
                   name="id"
@@ -115,17 +122,28 @@ export const ShowUpdate = () => {
                 }}
               />
               <ValidatedField
-                label={translate('agendaShowsApp.show.dataShow')}
+                className="show-form__field"
+                label={'Dia da semana'}
                 id="show-dataShow"
                 name="dataShow"
                 data-cy="dataShow"
-                type="date"
+                type="select"
                 validate={{
                   required: { value: true, message: translate('entity.validation.required') },
                 }}
-              />
+              >
+                <option value="">Selecione...</option>
+                <option value="MONDAY">Segunda-feira</option>
+                <option value="TUESDAY">Terça-feira</option>
+                <option value="WEDNESDAY">Quarta-feira</option>
+                <option value="THURSDAY">Quinta-feira</option>
+                <option value="FRIDAY">Sexta-feira</option>
+                <option value="SATURDAY">Sábado</option>
+                <option value="SUNDAY">Domingo</option>
+              </ValidatedField>
               <ValidatedField
-                label={translate('agendaShowsApp.show.horarioInicio')}
+                className="show-form__field"
+                label={'Data e horário'}
                 id="show-horarioInicio"
                 name="horarioInicio"
                 data-cy="horarioInicio"
@@ -142,7 +160,14 @@ export const ShowUpdate = () => {
                 data-cy="observacoes"
                 type="textarea"
               />
-              <ValidatedField label={translate('agendaShowsApp.show.status')} id="show-status" name="status" data-cy="status" type="select">
+              <ValidatedField
+                className="show-form__field"
+                label={translate('agendaShowsApp.show.status')}
+                id="show-status"
+                name="status"
+                data-cy="status"
+                type="select"
+              >
                 {statusShowValues.map(statusShow => (
                   <option value={statusShow} key={statusShow}>
                     {translate(`agendaShowsApp.StatusShow.${statusShow}`)}
@@ -150,12 +175,16 @@ export const ShowUpdate = () => {
                 ))}
               </ValidatedField>
               <ValidatedField
+                className="show-form__field"
                 id="show-cantor"
                 name="cantor"
                 data-cy="cantor"
                 label={translate('agendaShowsApp.show.cantor')}
                 type="select"
                 required
+                validate={{
+                  required: { value: true, message: translate('entity.validation.required') },
+                }}
               >
                 <option value="" key="0" />
                 {cantors
@@ -169,19 +198,20 @@ export const ShowUpdate = () => {
               <FormText>
                 <Translate contentKey="entity.validation.required">This field is required.</Translate>
               </FormText>
-              <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/show" replace color="info">
-                <FontAwesomeIcon icon="arrow-left" />
-                &nbsp;
-                <span className="d-none d-md-inline">
-                  <Translate contentKey="entity.action.back">Back</Translate>
-                </span>
-              </Button>
-              &nbsp;
-              <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating}>
-                <FontAwesomeIcon icon="save" />
-                &nbsp;
-                <Translate contentKey="entity.action.save">Save</Translate>
-              </Button>
+              <div className="show-form__actions">
+                <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/show" replace color="info">
+                  <FontAwesomeIcon icon="arrow-left" />
+                  &nbsp;
+                  <span>
+                    <Translate contentKey="entity.action.back">Back</Translate>
+                  </span>
+                </Button>
+                <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating}>
+                  <FontAwesomeIcon icon="save" />
+                  &nbsp;
+                  <Translate contentKey="entity.action.save">Save</Translate>
+                </Button>
+              </div>
             </ValidatedForm>
           )}
         </Col>

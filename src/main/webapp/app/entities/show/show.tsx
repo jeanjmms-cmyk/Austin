@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Button, Table } from 'reactstrap';
+import { Button } from 'reactstrap';
 import { JhiItemCount, JhiPagination, TextFormat, Translate, getPaginationState } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSort, faSortDown, faSortUp } from '@fortawesome/free-solid-svg-icons';
@@ -10,6 +10,22 @@ import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-u
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { getEntities } from './show.reducer';
+
+const getShowDay = (dataShow?: string) => {
+  if (!dataShow) {
+    return '--';
+  }
+  const day = new Date(`${dataShow}T00:00:00`).getDate();
+  return Number.isNaN(day) ? '--' : String(day).padStart(2, '0');
+};
+
+const getShowMonth = (dataShow?: string) => {
+  if (!dataShow) {
+    return 'Data';
+  }
+  const date = new Date(`${dataShow}T00:00:00`);
+  return Number.isNaN(date.getTime()) ? 'Data' : date.toLocaleDateString('pt-BR', { month: 'short' }).replace('.', '');
+};
 
 export const Show = () => {
   const dispatch = useAppDispatch();
@@ -90,110 +106,120 @@ export const Show = () => {
   };
 
   return (
-    <div>
-      <h2 id="show-heading" data-cy="ShowHeading">
-        <Translate contentKey="agendaShowsApp.show.home.title">Shows</Translate>
-        <div className="d-flex justify-content-end">
-          <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
+    <div className="show-page">
+      <div className="show-page__header">
+        <div>
+          <h2 id="show-heading" data-cy="ShowHeading" className="show-page__title">
+            <Translate contentKey="agendaShowsApp.show.home.title">Shows</Translate>
+          </h2>
+          <div className="show-page__meta">
+            {totalItems ? (
+              <JhiItemCount page={paginationState.activePage} total={totalItems} itemsPerPage={paginationState.itemsPerPage} i18nEnabled />
+            ) : (
+              <Translate contentKey="agendaShowsApp.show.home.notFound">No Shows found</Translate>
+            )}
+          </div>
+        </div>
+        <div className="show-page__actions">
+          <Button className="show-page__action" color="info" onClick={handleSyncList} disabled={loading}>
             <FontAwesomeIcon icon="sync" spin={loading} />{' '}
             <Translate contentKey="agendaShowsApp.show.home.refreshListLabel">Refresh List</Translate>
           </Button>
-          <Link to="/show/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
+          <Link
+            to="/show/new"
+            className="btn btn-primary jh-create-entity show-page__action"
+            id="jh-create-entity"
+            data-cy="entityCreateButton"
+          >
             <FontAwesomeIcon icon="plus" />
             &nbsp;
             <Translate contentKey="agendaShowsApp.show.home.createLabel">Create new Show</Translate>
           </Link>
         </div>
-      </h2>
-      <div className="table-responsive">
+      </div>
+
+      <div className="show-sort-bar" aria-label="Ordenar shows">
+        {[
+          ['id', 'agendaShowsApp.show.id', 'ID'],
+          ['local', 'agendaShowsApp.show.local', 'Local'],
+          ['dataShow', 'agendaShowsApp.show.dataShow', 'Data Show'],
+          ['horarioInicio', 'agendaShowsApp.show.horarioInicio', 'Horario Inicio'],
+          ['status', 'agendaShowsApp.show.status', 'Status'],
+        ].map(([field, contentKey, label]) => (
+          <Button key={field} color="light" size="sm" className="show-sort-bar__button" onClick={sort(field)}>
+            <Translate contentKey={contentKey}>{label}</Translate> <FontAwesomeIcon icon={getSortIconByFieldName(field)} />
+          </Button>
+        ))}
+      </div>
+
+      <div>
         {showList && showList.length > 0 ? (
-          <Table responsive>
-            <thead>
-              <tr>
-                <th className="hand" onClick={sort('id')}>
-                  <Translate contentKey="agendaShowsApp.show.id">ID</Translate> <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
-                </th>
-                <th className="hand" onClick={sort('local')}>
-                  <Translate contentKey="agendaShowsApp.show.local">Local</Translate>{' '}
-                  <FontAwesomeIcon icon={getSortIconByFieldName('local')} />
-                </th>
-                <th className="hand" onClick={sort('dataShow')}>
-                  <Translate contentKey="agendaShowsApp.show.dataShow">Data Show</Translate>{' '}
-                  <FontAwesomeIcon icon={getSortIconByFieldName('dataShow')} />
-                </th>
-                <th className="hand" onClick={sort('horarioInicio')}>
-                  <Translate contentKey="agendaShowsApp.show.horarioInicio">Horario Inicio</Translate>{' '}
-                  <FontAwesomeIcon icon={getSortIconByFieldName('horarioInicio')} />
-                </th>
-                <th className="hand" onClick={sort('observacoes')}>
-                  <Translate contentKey="agendaShowsApp.show.observacoes">Observacoes</Translate>{' '}
-                  <FontAwesomeIcon icon={getSortIconByFieldName('observacoes')} />
-                </th>
-                <th className="hand" onClick={sort('status')}>
-                  <Translate contentKey="agendaShowsApp.show.status">Status</Translate>{' '}
-                  <FontAwesomeIcon icon={getSortIconByFieldName('status')} />
-                </th>
-                <th>
-                  <Translate contentKey="agendaShowsApp.show.cantor">Cantor</Translate> <FontAwesomeIcon icon="sort" />
-                </th>
-                <th />
-              </tr>
-            </thead>
-            <tbody>
-              {showList.map((show, i) => (
-                <tr key={`entity-${i}`} data-cy="entityTable">
-                  <td>
-                    <Button tag={Link} to={`/show/${show.id}`} color="link" size="sm">
-                      {show.id}
-                    </Button>
-                  </td>
-                  <td>{show.local}</td>
-                  <td>{show.dataShow ? <TextFormat type="date" value={show.dataShow} format={APP_LOCAL_DATE_FORMAT} /> : null}</td>
-                  <td>{show.horarioInicio ? <TextFormat type="date" value={show.horarioInicio} format={APP_DATE_FORMAT} /> : null}</td>
-                  <td>{show.observacoes}</td>
-                  <td>
+          <div className="show-grid">
+            {showList.map((show, i) => (
+              <article key={`entity-${i}`} className="show-card" data-cy="entityTable">
+                <div className="show-card__media">
+                  <div className="show-card__date">
+                    <span>{getShowDay(show.dataShow)}</span>
+                    <small>{getShowMonth(show.dataShow)}</small>
+                  </div>
+                  <span className="show-card__status">
                     <Translate contentKey={`agendaShowsApp.StatusShow.${show.status}`} />
-                  </td>
-                  <td>{show.cantor ? <Link to={`/cantor/${show.cantor.id}`}>{show.cantor.nome}</Link> : ''}</td>
-                  <td className="text-end">
-                    <div className="btn-group flex-btn-group-container">
-                      <Button tag={Link} to={`/show/${show.id}`} color="info" size="sm" data-cy="entityDetailsButton">
-                        <FontAwesomeIcon icon="eye" />{' '}
-                        <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.view">View</Translate>
-                        </span>
-                      </Button>
-                      <Button
-                        tag={Link}
-                        to={`/show/${show.id}/edit?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
-                        color="primary"
-                        size="sm"
-                        data-cy="entityEditButton"
-                      >
-                        <FontAwesomeIcon icon="pencil-alt" />{' '}
-                        <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.edit">Edit</Translate>
-                        </span>
-                      </Button>
-                      <Button
-                        onClick={() =>
-                          (window.location.href = `/show/${show.id}/delete?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`)
-                        }
-                        color="danger"
-                        size="sm"
-                        data-cy="entityDeleteButton"
-                      >
-                        <FontAwesomeIcon icon="trash" />{' '}
-                        <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.delete">Delete</Translate>
-                        </span>
-                      </Button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+                  </span>
+                </div>
+                <div className="show-card__body">
+                  <div className="show-card__eyebrow">#{show.id}</div>
+                  <h3 className="show-card__local">{show.local}</h3>
+                  <div className="show-card__info">
+                    {show.dataShow ? <TextFormat type="date" value={show.dataShow} format={APP_LOCAL_DATE_FORMAT} /> : 'Data nao informada'}
+                  </div>
+                  <div className="show-card__info">
+                    {show.horarioInicio ? (
+                      <TextFormat type="date" value={show.horarioInicio} format={APP_DATE_FORMAT} />
+                    ) : (
+                      'Horario nao informado'
+                    )}
+                  </div>
+                  <div className="show-card__artist">
+                    {show.cantor ? <Link to={`/cantor/${show.cantor.id}`}>{show.cantor.nome}</Link> : 'Cantor nao informado'}
+                  </div>
+                  <p className="show-card__notes">{show.observacoes || 'Sem observacoes cadastradas.'}</p>
+                </div>
+                <div className="show-card__actions">
+                  <Button tag={Link} to={`/show/${show.id}`} color="info" size="sm" data-cy="entityDetailsButton">
+                    <FontAwesomeIcon icon="eye" />{' '}
+                    <span>
+                      <Translate contentKey="entity.action.view">View</Translate>
+                    </span>
+                  </Button>
+                  <Button
+                    tag={Link}
+                    to={`/show/${show.id}/edit?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
+                    color="primary"
+                    size="sm"
+                    data-cy="entityEditButton"
+                  >
+                    <FontAwesomeIcon icon="pencil-alt" />{' '}
+                    <span>
+                      <Translate contentKey="entity.action.edit">Edit</Translate>
+                    </span>
+                  </Button>
+                  <Button
+                    onClick={() =>
+                      (window.location.href = `/show/${show.id}/delete?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`)
+                    }
+                    color="danger"
+                    size="sm"
+                    data-cy="entityDeleteButton"
+                  >
+                    <FontAwesomeIcon icon="trash" />{' '}
+                    <span>
+                      <Translate contentKey="entity.action.delete">Delete</Translate>
+                    </span>
+                  </Button>
+                </div>
+              </article>
+            ))}
+          </div>
         ) : (
           !loading && (
             <div className="alert alert-warning">
@@ -204,10 +230,7 @@ export const Show = () => {
       </div>
       {totalItems ? (
         <div className={showList && showList.length > 0 ? '' : 'd-none'}>
-          <div className="justify-content-center d-flex">
-            <JhiItemCount page={paginationState.activePage} total={totalItems} itemsPerPage={paginationState.itemsPerPage} i18nEnabled />
-          </div>
-          <div className="justify-content-center d-flex">
+          <div className="show-pagination">
             <JhiPagination
               activePage={paginationState.activePage}
               onSelect={handlePagination}
