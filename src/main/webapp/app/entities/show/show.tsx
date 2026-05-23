@@ -11,19 +11,19 @@ import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { getEntities } from './show.reducer';
 
-const getShowDay = (dataShow?: string) => {
-  if (!dataShow) {
+const getShowDay = (horarioInicio?: string) => {
+  if (!horarioInicio) {
     return '--';
   }
-  const day = new Date(`${dataShow}T00:00:00`).getDate();
+  const day = new Date(horarioInicio).getDate();
   return Number.isNaN(day) ? '--' : String(day).padStart(2, '0');
 };
 
-const getShowMonth = (dataShow?: string) => {
-  if (!dataShow) {
+const getShowMonth = (horarioInicio?: string) => {
+  if (!horarioInicio) {
     return 'Data';
   }
-  const date = new Date(`${dataShow}T00:00:00`);
+  const date = new Date(horarioInicio);
   return Number.isNaN(date.getTime()) ? 'Data' : date.toLocaleDateString('pt-BR', { month: 'short' }).replace('.', '');
 };
 
@@ -159,8 +159,8 @@ export const Show = () => {
               <article key={`entity-${i}`} className="show-card" data-cy="entityTable">
                 <div className="show-card__media">
                   <div className="show-card__date">
-                    <span>{getShowDay(show.dataShow)}</span>
-                    <small>{getShowMonth(show.dataShow)}</small>
+                    <span>{getShowDay(show.horarioInicio)}</span>
+                    <small>{getShowMonth(show.horarioInicio)}</small>
                   </div>
                   <span className="show-card__status">
                     <Translate contentKey={`agendaShowsApp.StatusShow.${show.status}`} />
@@ -170,7 +170,11 @@ export const Show = () => {
                   <div className="show-card__eyebrow">#{show.id}</div>
                   <h3 className="show-card__local">{show.local}</h3>
                   <div className="show-card__info">
-                    {show.dataShow ? <TextFormat type="date" value={show.dataShow} format={APP_LOCAL_DATE_FORMAT} /> : 'Data nao informada'}
+                    {show.horarioInicio ? (
+                      <TextFormat type="date" value={show.horarioInicio} format={APP_LOCAL_DATE_FORMAT} />
+                    ) : (
+                      'Data nao informada'
+                    )}
                   </div>
                   <div className="show-card__info">
                     {show.horarioInicio ? (

@@ -5,7 +5,7 @@ import { StatusShow } from 'app/shared/model/enumerations/status-show.model';
 export interface IShow {
   id?: number;
   local?: string;
-  dataShow?: dayjs.Dayjs;
+  dataShow?: string;
   horarioInicio?: dayjs.Dayjs;
   observacoes?: string | null;
   status?: keyof typeof StatusShow;

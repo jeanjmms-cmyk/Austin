@@ -2,6 +2,7 @@ package com.agendashows.service.criteria;
 
 import com.agendashows.domain.enumeration.StatusShow;
 import java.io.Serializable;
+import java.time.DayOfWeek;
 import java.util.Objects;
 import java.util.Optional;
 import org.springdoc.core.annotations.ParameterObject;
@@ -20,6 +21,23 @@ import tech.jhipster.service.filter.*;
 @ParameterObject
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class ShowCriteria implements Serializable, Criteria {
+
+    /**
+     * Class for filtering DayOfWeek
+     */
+    public static class DayOfWeekFilter extends Filter<DayOfWeek> {
+
+        public DayOfWeekFilter() {}
+
+        public DayOfWeekFilter(DayOfWeekFilter filter) {
+            super(filter);
+        }
+
+        @Override
+        public DayOfWeekFilter copy() {
+            return new DayOfWeekFilter(this);
+        }
+    }
 
     /**
      * Class for filtering StatusShow
@@ -44,7 +62,7 @@ public class ShowCriteria implements Serializable, Criteria {
 
     private StringFilter local;
 
-    private LocalDateFilter dataShow;
+    private DayOfWeekFilter dataShow;
 
     private InstantFilter horarioInicio;
 
@@ -59,7 +77,7 @@ public class ShowCriteria implements Serializable, Criteria {
     public ShowCriteria(ShowCriteria other) {
         this.id = other.optionalId().map(LongFilter::copy).orElse(null);
         this.local = other.optionalLocal().map(StringFilter::copy).orElse(null);
-        this.dataShow = other.optionalDataShow().map(LocalDateFilter::copy).orElse(null);
+        this.dataShow = other.optionalDataShow().map(DayOfWeekFilter::copy).orElse(null);
         this.horarioInicio = other.optionalHorarioInicio().map(InstantFilter::copy).orElse(null);
         this.status = other.optionalStatus().map(StatusShowFilter::copy).orElse(null);
         this.cantorId = other.optionalCantorId().map(LongFilter::copy).orElse(null);
@@ -109,22 +127,22 @@ public class ShowCriteria implements Serializable, Criteria {
         this.local = local;
     }
 
-    public LocalDateFilter getDataShow() {
+    public DayOfWeekFilter getDataShow() {
         return dataShow;
     }
 
-    public Optional<LocalDateFilter> optionalDataShow() {
+    public Optional<DayOfWeekFilter> optionalDataShow() {
         return Optional.ofNullable(dataShow);
     }
 
-    public LocalDateFilter dataShow() {
+    public DayOfWeekFilter dataShow() {
         if (dataShow == null) {
-            setDataShow(new LocalDateFilter());
+            setDataShow(new DayOfWeekFilter());
         }
         return dataShow;
     }
 
-    public void setDataShow(LocalDateFilter dataShow) {
+    public void setDataShow(DayOfWeekFilter dataShow) {
         this.dataShow = dataShow;
     }
 

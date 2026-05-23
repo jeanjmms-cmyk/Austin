@@ -18,9 +18,8 @@ import com.agendashows.service.dto.ShowDTO;
 import com.agendashows.service.mapper.ShowMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityManager;
+import java.time.DayOfWeek;
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Random;
@@ -52,9 +51,8 @@ class ShowResourceIT {
     private static final String DEFAULT_LOCAL = "AAAAAAAAAA";
     private static final String UPDATED_LOCAL = "BBBBBBBBBB";
 
-    private static final LocalDate DEFAULT_DATA_SHOW = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_DATA_SHOW = LocalDate.now(ZoneId.systemDefault());
-    private static final LocalDate SMALLER_DATA_SHOW = LocalDate.ofEpochDay(-1L);
+    private static final DayOfWeek DEFAULT_DATA_SHOW = DayOfWeek.MONDAY;
+    private static final DayOfWeek UPDATED_DATA_SHOW = DayOfWeek.TUESDAY;
 
     private static final Instant DEFAULT_HORARIO_INICIO = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_HORARIO_INICIO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
@@ -419,46 +417,6 @@ class ShowResourceIT {
 
         // Get all the showList where dataShow is not null
         defaultShowFiltering("dataShow.specified=true", "dataShow.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllShowsByDataShowIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        insertedShow = showRepository.saveAndFlush(show);
-
-        // Get all the showList where dataShow is greater than or equal to
-        defaultShowFiltering("dataShow.greaterThanOrEqual=" + DEFAULT_DATA_SHOW, "dataShow.greaterThanOrEqual=" + UPDATED_DATA_SHOW);
-    }
-
-    @Test
-    @Transactional
-    void getAllShowsByDataShowIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        insertedShow = showRepository.saveAndFlush(show);
-
-        // Get all the showList where dataShow is less than or equal to
-        defaultShowFiltering("dataShow.lessThanOrEqual=" + DEFAULT_DATA_SHOW, "dataShow.lessThanOrEqual=" + SMALLER_DATA_SHOW);
-    }
-
-    @Test
-    @Transactional
-    void getAllShowsByDataShowIsLessThanSomething() throws Exception {
-        // Initialize the database
-        insertedShow = showRepository.saveAndFlush(show);
-
-        // Get all the showList where dataShow is less than
-        defaultShowFiltering("dataShow.lessThan=" + UPDATED_DATA_SHOW, "dataShow.lessThan=" + DEFAULT_DATA_SHOW);
-    }
-
-    @Test
-    @Transactional
-    void getAllShowsByDataShowIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        insertedShow = showRepository.saveAndFlush(show);
-
-        // Get all the showList where dataShow is greater than
-        defaultShowFiltering("dataShow.greaterThan=" + SMALLER_DATA_SHOW, "dataShow.greaterThan=" + DEFAULT_DATA_SHOW);
     }
 
     @Test

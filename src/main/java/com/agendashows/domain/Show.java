@@ -4,8 +4,8 @@ import com.agendashows.domain.enumeration.StatusShow;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
+import java.time.DayOfWeek;
 import java.time.Instant;
-import java.time.LocalDate;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -32,8 +32,9 @@ public class Show implements Serializable {
     private String local;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(name = "data_show", nullable = false)
-    private LocalDate dataShow;
+    private DayOfWeek dataShow;
 
     @NotNull
     @Column(name = "horario_inicio", nullable = false)
@@ -80,16 +81,16 @@ public class Show implements Serializable {
         this.local = local;
     }
 
-    public LocalDate getDataShow() {
+    public DayOfWeek getDataShow() {
         return this.dataShow;
     }
 
-    public Show dataShow(LocalDate dataShow) {
+    public Show dataShow(DayOfWeek dataShow) {
         this.setDataShow(dataShow);
         return this;
     }
 
-    public void setDataShow(LocalDate dataShow) {
+    public void setDataShow(DayOfWeek dataShow) {
         this.dataShow = dataShow;
     }
 

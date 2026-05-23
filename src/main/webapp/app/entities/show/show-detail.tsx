@@ -25,8 +25,8 @@ export const ShowDetail = () => {
         <section className="show-profile" data-cy="showDetailsHeading">
           <div className="show-profile__hero">
             <div className="show-profile__calendar">
-              <span>{showEntity.dataShow ? <TextFormat value={showEntity.dataShow} type="date" format="DD" /> : '--'}</span>
-              <small>{showEntity.dataShow ? <TextFormat value={showEntity.dataShow} type="date" format="MMM" /> : 'Data'}</small>
+              <span>{showEntity.horarioInicio ? <TextFormat value={showEntity.horarioInicio} type="date" format="DD" /> : '--'}</span>
+              <small>{showEntity.horarioInicio ? <TextFormat value={showEntity.horarioInicio} type="date" format="MMM" /> : 'Data'}</small>
             </div>
             <div className="show-profile__summary">
               <div className="show-profile__label">
@@ -61,7 +61,13 @@ export const ShowDetail = () => {
                 <dt>
                   <Translate contentKey="agendaShowsApp.show.dataShow">Data Show</Translate>
                 </dt>
-                <dd>{showEntity.dataShow ? <TextFormat value={showEntity.dataShow} type="date" format={APP_LOCAL_DATE_FORMAT} /> : '-'}</dd>
+                <dd>
+                  {showEntity.horarioInicio ? (
+                    <TextFormat value={showEntity.horarioInicio} type="date" format={APP_LOCAL_DATE_FORMAT} />
+                  ) : (
+                    '-'
+                  )}
+                </dd>
               </div>
               <div>
                 <dt>

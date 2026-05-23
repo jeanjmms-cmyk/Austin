@@ -75,7 +75,7 @@ public class ShowQueryService extends QueryService<Show> {
                 Boolean.TRUE.equals(criteria.getDistinct()) ? distinct(criteria.getDistinct()) : null,
                 buildRangeSpecification(criteria.getId(), Show_.id),
                 buildStringSpecification(criteria.getLocal(), Show_.local),
-                buildRangeSpecification(criteria.getDataShow(), Show_.dataShow),
+                buildSpecification(criteria.getDataShow(), Show_.dataShow),
                 buildRangeSpecification(criteria.getHorarioInicio(), Show_.horarioInicio),
                 buildSpecification(criteria.getStatus(), Show_.status),
                 buildSpecification(criteria.getCantorId(), root -> root.join(Show_.cantor, JoinType.LEFT).get(Cantor_.id))

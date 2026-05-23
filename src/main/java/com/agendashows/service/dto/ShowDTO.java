@@ -5,8 +5,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Lob;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
+import java.time.DayOfWeek;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -23,7 +23,7 @@ public class ShowDTO implements Serializable {
     private String local;
 
     @NotNull
-    private LocalDate dataShow;
+    private DayOfWeek dataShow;
 
     @NotNull
     private Instant horarioInicio;
@@ -53,11 +53,11 @@ public class ShowDTO implements Serializable {
         this.local = local;
     }
 
-    public LocalDate getDataShow() {
+    public DayOfWeek getDataShow() {
         return dataShow;
     }
 
-    public void setDataShow(LocalDate dataShow) {
+    public void setDataShow(DayOfWeek dataShow) {
         this.dataShow = dataShow;
     }
 
