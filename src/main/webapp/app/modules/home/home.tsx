@@ -12,9 +12,6 @@ export const Home = () => {
 
   return (
     <Row>
-      <Col md="3" className="pad">
-        <span className="hipster rounded" />
-      </Col>
       <Col md="9">
         <h1 className="display-4">Austin Produções</h1>
         <p className="lead">Sistema de agendamento de shows</p>
