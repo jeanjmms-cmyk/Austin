@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="20260523162000-1" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="show"/>
+            <columnExists tableName="show" columnName="data_show"/>
+        </preConditions>
+
+        <modifyDataType tableName="show" columnName="data_show" newDataType="varchar(255)"/>
+    </changeSet>
+
+    <changeSet id="20260523162000-2-h2" author="codex" dbms="h2">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="show"/>
+            <columnExists tableName="show" columnName="data_show"/>
+        </preConditions>
+
+        <sql>
+            UPDATE show
+            SET data_show = UPPER(FORMATDATETIME(PARSEDATETIME(data_show, 'yyyy-MM-dd'), 'EEEE'))
+            WHERE REGEXP_LIKE(data_show, '^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+        </sql>
+    </changeSet>
+
+    <changeSet id="20260523162000-2-postgresql" author="codex" dbms="postgresql">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="show"/>
+            <columnExists tableName="show" columnName="data_show"/>
+        </preConditions>
+
+        <sql>
+            UPDATE "show"
+            SET data_show = UPPER(TO_CHAR(data_show::date, 'FMDay'))
+            WHERE data_show ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'
+        </sql>
+    </changeSet>
+</databaseChangeLog>
