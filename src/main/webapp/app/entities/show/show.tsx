@@ -1,30 +1,38 @@
 import React, { useEffect, useState } from 'react';
+import dayjs from 'dayjs';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from 'reactstrap';
-import { JhiItemCount, JhiPagination, TextFormat, Translate, getPaginationState } from 'react-jhipster';
+import { JhiItemCount, JhiPagination, Translate, getPaginationState } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSort, faSortDown, faSortUp } from '@fortawesome/free-solid-svg-icons';
-import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
+import { APP_DATE_FORMAT } from 'app/config/constants';
 import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/shared/util/pagination.constants';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { getEntities } from './show.reducer';
 
-const getShowDay = (horarioInicio?: string) => {
-  if (!horarioInicio) {
-    return '--';
-  }
-  const day = new Date(horarioInicio).getDate();
-  return Number.isNaN(day) ? '--' : String(day).padStart(2, '0');
+const dayOfWeekLabels: Record<string, string> = {
+  MONDAY: 'Segunda-feira',
+  TUESDAY: 'Terca-feira',
+  WEDNESDAY: 'Quarta-feira',
+  THURSDAY: 'Quinta-feira',
+  FRIDAY: 'Sexta-feira',
+  SATURDAY: 'Sabado',
+  SUNDAY: 'Domingo',
 };
 
-const getShowMonth = (horarioInicio?: string) => {
-  if (!horarioInicio) {
-    return 'Data';
-  }
-  const date = new Date(horarioInicio);
-  return Number.isNaN(date.getTime()) ? 'Data' : date.toLocaleDateString('pt-BR', { month: 'short' }).replace('.', '');
+const formatShowDate = (value: dayjs.ConfigType, format: string, fallback: string) => {
+  const date = dayjs(value);
+  return date.isValid() ? date.format(format).replace('.', '') : fallback;
+};
+
+const getShowDay = (horarioInicio?: dayjs.ConfigType) => formatShowDate(horarioInicio, 'DD', '--');
+
+const getShowMonth = (horarioInicio?: dayjs.ConfigType) => formatShowDate(horarioInicio, 'MMM', 'Data');
+
+const getShowWeekday = (dataShow?: string) => {
+  return dataShow ? (dayOfWeekLabels[dataShow] ?? dataShow) : 'Dia da semana nao informado';
 };
 
 export const Show = () => {
@@ -142,7 +150,7 @@ export const Show = () => {
         {[
           ['id', 'agendaShowsApp.show.id', 'ID'],
           ['local', 'agendaShowsApp.show.local', 'Local'],
-          ['dataShow', 'agendaShowsApp.show.dataShow', 'Data Show'],
+          ['dataShow', 'agendaShowsApp.show.dataShow', 'Dia da semana'],
           ['horarioInicio', 'agendaShowsApp.show.horarioInicio', 'Horario Inicio'],
           ['status', 'agendaShowsApp.show.status', 'Status'],
         ].map(([field, contentKey, label]) => (
@@ -169,24 +177,16 @@ export const Show = () => {
                 <div className="show-card__body">
                   <div className="show-card__eyebrow">#{show.id}</div>
                   <h3 className="show-card__local">{show.local}</h3>
+                  <div className="show-card__info">{getShowWeekday(show.dataShow)}</div>
                   <div className="show-card__info">
-                    {show.horarioInicio ? (
-                      <TextFormat type="date" value={show.horarioInicio} format={APP_LOCAL_DATE_FORMAT} />
-                    ) : (
-                      'Data nao informada'
-                    )}
-                  </div>
-                  <div className="show-card__info">
-                    {show.horarioInicio ? (
-                      <TextFormat type="date" value={show.horarioInicio} format={APP_DATE_FORMAT} />
-                    ) : (
-                      'Horario nao informado'
-                    )}
+                    {show.horarioInicio
+                      ? formatShowDate(show.horarioInicio, APP_DATE_FORMAT, 'Horario nao informado')
+                      : 'Horario nao informado'}
                   </div>
                   <div className="show-card__artist">
-                    {show.cantor ? <Link to={`/cantor/${show.cantor.id}`}>{show.cantor.nome}</Link> : 'Cantor nao informado'}
+                    {show.cantor ? <Link to={`/cantor/${show.cantor.id}`}>{show.cantor.nome}</Link> : 'Cantor não informado'}
                   </div>
-                  <p className="show-card__notes">{show.observacoes || 'Sem observacoes cadastradas.'}</p>
+                  <p className="show-card__notes">{show.observacoes || 'Sem observações.'}</p>
                 </div>
                 <div className="show-card__actions">
                   <Button tag={Link} to={`/show/${show.id}`} color="info" size="sm" data-cy="entityDetailsButton">

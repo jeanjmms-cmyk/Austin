@@ -1,13 +1,33 @@
 import React, { useEffect } from 'react';
+import dayjs from 'dayjs';
 import { Link, useParams } from 'react-router-dom';
 import { Button, Col, Row } from 'reactstrap';
-import { TextFormat, Translate } from 'react-jhipster';
+import { Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
+import { APP_DATE_FORMAT } from 'app/config/constants';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { getEntity } from './show.reducer';
+
+const dayOfWeekLabels: Record<string, string> = {
+  MONDAY: 'Segunda-feira',
+  TUESDAY: 'Terca-feira',
+  WEDNESDAY: 'Quarta-feira',
+  THURSDAY: 'Quinta-feira',
+  FRIDAY: 'Sexta-feira',
+  SATURDAY: 'Sabado',
+  SUNDAY: 'Domingo',
+};
+
+const formatShowDate = (value: dayjs.ConfigType, format: string, fallback: string) => {
+  const date = dayjs(value);
+  return date.isValid() ? date.format(format).replace('.', '') : fallback;
+};
+
+const getShowWeekday = (dataShow?: string) => {
+  return dataShow ? (dayOfWeekLabels[dataShow] ?? dataShow) : '-';
+};
 
 export const ShowDetail = () => {
   const dispatch = useAppDispatch();
@@ -25,8 +45,8 @@ export const ShowDetail = () => {
         <section className="show-profile" data-cy="showDetailsHeading">
           <div className="show-profile__hero">
             <div className="show-profile__calendar">
-              <span>{showEntity.horarioInicio ? <TextFormat value={showEntity.horarioInicio} type="date" format="DD" /> : '--'}</span>
-              <small>{showEntity.horarioInicio ? <TextFormat value={showEntity.horarioInicio} type="date" format="MMM" /> : 'Data'}</small>
+              <span>{formatShowDate(showEntity.horarioInicio, 'DD', '--')}</span>
+              <small>{formatShowDate(showEntity.horarioInicio, 'MMM', 'Data')}</small>
             </div>
             <div className="show-profile__summary">
               <div className="show-profile__label">
@@ -61,21 +81,13 @@ export const ShowDetail = () => {
                 <dt>
                   <Translate contentKey="agendaShowsApp.show.dataShow">Data Show</Translate>
                 </dt>
-                <dd>
-                  {showEntity.horarioInicio ? (
-                    <TextFormat value={showEntity.horarioInicio} type="date" format={APP_LOCAL_DATE_FORMAT} />
-                  ) : (
-                    '-'
-                  )}
-                </dd>
+                <dd>{getShowWeekday(showEntity.dataShow)}</dd>
               </div>
               <div>
                 <dt>
                   <Translate contentKey="agendaShowsApp.show.horarioInicio">Horario Inicio</Translate>
                 </dt>
-                <dd>
-                  {showEntity.horarioInicio ? <TextFormat value={showEntity.horarioInicio} type="date" format={APP_DATE_FORMAT} /> : '-'}
-                </dd>
+                <dd>{formatShowDate(showEntity.horarioInicio, APP_DATE_FORMAT, '-')}</dd>
               </div>
               <div>
                 <dt>

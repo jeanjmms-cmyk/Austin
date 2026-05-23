@@ -95,7 +95,7 @@ export const Cantor = () => {
       <div className="cantor-page__header">
         <div>
           <h2 id="cantor-heading" data-cy="CantorHeading" className="cantor-page__title">
-            <Translate contentKey="agendaShowsApp.cantor.home.title">Cantors</Translate>
+            Cantores
           </h2>
           <div className="cantor-page__meta">
             {totalItems ? (
