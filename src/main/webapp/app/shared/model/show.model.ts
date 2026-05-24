@@ -9,6 +9,7 @@ export interface IShow {
   horarioInicio?: dayjs.Dayjs;
   observacoes?: string | null;
   status?: keyof typeof StatusShow;
+  valor?: number | null;
   cantor?: ICantor;
 }
 

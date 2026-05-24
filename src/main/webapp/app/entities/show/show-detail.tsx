@@ -64,10 +64,8 @@ export const ShowDetail = () => {
 
           <div className="show-profile__content">
             <div className="show-profile__section">
-              <h3>
-                <Translate contentKey="agendaShowsApp.show.observacoes">Observacoes</Translate>
-              </h3>
-              <p>{showEntity.observacoes || 'Sem observacoes cadastradas.'}</p>
+              <h3>Observações</h3>
+              <p>{showEntity.observacoes || 'Sem observações cadastradas.'}</p>
             </div>
 
             <dl className="show-profile__details">
@@ -84,10 +82,12 @@ export const ShowDetail = () => {
                 <dd>{getShowWeekday(showEntity.dataShow)}</dd>
               </div>
               <div>
-                <dt>
-                  <Translate contentKey="agendaShowsApp.show.horarioInicio">Horario Inicio</Translate>
-                </dt>
+                <dt>Data e horário</dt>
                 <dd>{formatShowDate(showEntity.horarioInicio, APP_DATE_FORMAT, '-')}</dd>
+              </div>
+              <div>
+                <dt>Valor</dt>
+                <dd>{showEntity.valor ? `R$ ${Number(showEntity.valor).toFixed(2).replace('.', ',')}` : '-'}</dd>
               </div>
               <div>
                 <dt>

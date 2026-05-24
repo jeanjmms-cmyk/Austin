@@ -99,16 +99,6 @@ export const ShowUpdate = () => {
             <p>Loading...</p>
           ) : (
             <ValidatedForm className="show-form" defaultValues={defaultValues()} onSubmit={saveEntity}>
-              {!isNew ? (
-                <ValidatedField
-                  name="id"
-                  required
-                  readOnly
-                  id="show-id"
-                  label={translate('global.field.id')}
-                  validate={{ required: true }}
-                />
-              ) : null}
               <ValidatedField
                 label={translate('agendaShowsApp.show.local')}
                 id="show-local"
@@ -153,13 +143,7 @@ export const ShowUpdate = () => {
                   required: { value: true, message: translate('entity.validation.required') },
                 }}
               />
-              <ValidatedField
-                label={translate('agendaShowsApp.show.observacoes')}
-                id="show-observacoes"
-                name="observacoes"
-                data-cy="observacoes"
-                type="textarea"
-              />
+              <ValidatedField label={'Observações'} id="show-observacoes" name="observacoes" data-cy="observacoes" type="textarea" />
               <ValidatedField
                 className="show-form__field"
                 label={translate('agendaShowsApp.show.status')}
@@ -174,6 +158,17 @@ export const ShowUpdate = () => {
                   </option>
                 ))}
               </ValidatedField>
+              <ValidatedField
+                className="show-form__field"
+                label="Valor (R$)"
+                id="show-valor"
+                name="valor"
+                data-cy="valor"
+                type="number"
+                validate={{
+                  min: { value: 0, message: 'O valor não pode ser negativo' },
+                }}
+              />
               <ValidatedField
                 className="show-form__field"
                 id="show-cantor"

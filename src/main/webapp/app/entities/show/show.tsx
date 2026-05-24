@@ -177,16 +177,18 @@ export const Show = () => {
                 <div className="show-card__body">
                   <div className="show-card__eyebrow">#{show.id}</div>
                   <h3 className="show-card__local">{show.local}</h3>
+                  <div className="show-card__artist">
+                    {show.cantor ? <Link to={`/cantor/${show.cantor.id}`}>{show.cantor.nome}</Link> : 'Cantor não informado'}
+                  </div>
                   <div className="show-card__info">{getShowWeekday(show.dataShow)}</div>
                   <div className="show-card__info">
                     {show.horarioInicio
                       ? formatShowDate(show.horarioInicio, APP_DATE_FORMAT, 'Horario nao informado')
                       : 'Horario nao informado'}
                   </div>
-                  <div className="show-card__artist">
-                    {show.cantor ? <Link to={`/cantor/${show.cantor.id}`}>{show.cantor.nome}</Link> : 'Cantor não informado'}
+                  <div className="show-card__info">
+                    {show.valor ? `R$ ${Number(show.valor).toFixed(2).replace('.', ',')}` : 'Valor não informado'}
                   </div>
-                  <p className="show-card__notes">{show.observacoes || 'Sem observações.'}</p>
                 </div>
                 <div className="show-card__actions">
                   <Button tag={Link} to={`/show/${show.id}`} color="info" size="sm" data-cy="entityDetailsButton">
