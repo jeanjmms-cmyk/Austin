@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Lob;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.Instant;
 import java.util.Objects;
@@ -33,6 +34,9 @@ public class ShowDTO implements Serializable {
 
     @NotNull
     private StatusShow status;
+
+    @DecimalMin(value = "0")
+    private BigDecimal valor;
 
     @NotNull
     private CantorDTO cantor;
@@ -85,6 +89,14 @@ public class ShowDTO implements Serializable {
         this.status = status;
     }
 
+    public BigDecimal getValor() {
+        return valor;
+    }
+
+    public void setValor(BigDecimal valor) {
+        this.valor = valor;
+    }
+
     public CantorDTO getCantor() {
         return cantor;
     }
@@ -125,6 +137,7 @@ public class ShowDTO implements Serializable {
             ", observacoes='" + getObservacoes() + "'" +
             ", status='" + getStatus() + "'" +
             ", cantor=" + getCantor() +
+            ", valor=" + getValor() +
             "}";
     }
 }

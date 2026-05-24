@@ -22,6 +22,7 @@
     <include file="config/liquibase/changelog/20260516133438_added_entity_Cantor.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20260516133538_added_entity_Show.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20260523162000_alter_show_data_show_day_of_week.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20260524000001_added_field_valor_Show.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20260516133538_added_entity_constraints_Show.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->

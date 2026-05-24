@@ -29,6 +29,7 @@ entity Show {
     horarioInicio Instant required
     observacoes TextBlob
     status      StatusShow required
+    valor BigDecimal
 }
 
 // ─────────────────────────────────────────────

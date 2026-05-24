@@ -4,6 +4,7 @@ import com.agendashows.domain.enumeration.StatusShow;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.Instant;
 import org.hibernate.annotations.Cache;
@@ -48,6 +49,10 @@ public class Show implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private StatusShow status;
+
+    @DecimalMin(value = "0")
+    @Column(name = "valor", precision = 21, scale = 2, nullable = true)
+    private BigDecimal valor;
 
     @ManyToOne(optional = false)
     @NotNull
@@ -133,6 +138,19 @@ public class Show implements Serializable {
         this.status = status;
     }
 
+    public BigDecimal getValor() {
+        return this.valor;
+    }
+
+    public Show valor(BigDecimal valor) {
+        this.setValor(valor);
+        return this;
+    }
+
+    public void setValor(BigDecimal valor) {
+        this.valor = valor;
+    }
+
     public Cantor getCantor() {
         return this.cantor;
     }
@@ -175,6 +193,7 @@ public class Show implements Serializable {
             ", horarioInicio='" + getHorarioInicio() + "'" +
             ", observacoes='" + getObservacoes() + "'" +
             ", status='" + getStatus() + "'" +
+            ", valor=" + getValor() +
             "}";
     }
 }
