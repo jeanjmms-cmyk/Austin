@@ -7,3 +7,100 @@ Main page styles
   height: 497px;
   background-size: contain;
 }
+
+.financial-table {
+  background: #fff;
+  border: 0.5px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 1.25rem;
+  align-content: center;
+  justify-content: center;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  &__title {
+    font-size: 15px;
+    font-weight: 500;
+    margin: 0;
+  }
+
+  &__filters {
+    display: flex;
+    gap: 10px;
+  }
+
+  &__select {
+    font-size: 13px;
+    border: 0.5px solid #ccc;
+    border-radius: 8px;
+    padding: 6px 12px;
+    background: #f8f8f8;
+    color: #333;
+    cursor: pointer;
+  }
+
+  &__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+
+    thead th {
+      text-align: left;
+      font-size: 11px;
+      font-weight: 500;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0 8px 10px;
+      border-bottom: 0.5px solid #e0e0e0;
+
+      &:last-child {
+        text-align: right;
+      }
+    }
+
+    tbody td {
+      padding: 11px 8px;
+      border-bottom: 0.5px solid #f0f0f0;
+
+      &:last-child {
+        text-align: right;
+      }
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+    tbody tr:hover td {
+      background: #f9f9f9;
+    }
+
+    tfoot td {
+      font-weight: 500;
+      padding-top: 12px;
+      border-top: 1px solid #ddd;
+
+      &:last-child {
+        text-align: right;
+      }
+    }
+  }
+
+  &__empty {
+    font-size: 13px;
+    color: #888;
+    text-align: center;
+    padding: 2rem 0;
+  }
+}
+
+.title-home {
+  padding-bottom: 20px;
+}

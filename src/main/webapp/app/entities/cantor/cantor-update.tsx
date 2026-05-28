@@ -74,7 +74,7 @@ export const CantorUpdate = () => {
               <FontAwesomeIcon icon={faMicrophone} />
             </div>
             <h2 id="agendaShowsApp.cantor.home.createOrEditLabel" data-cy="CantorCreateUpdateHeading">
-              <Translate contentKey="agendaShowsApp.cantor.home.createOrEditLabel">Create or edit a Cantor</Translate>
+              <Translate contentKey="agendaShowsApp.cantor.home.createOrEditLabel">Create or edit an Artist</Translate>
             </h2>
           </div>
         </Col>
@@ -132,7 +132,7 @@ export const CantorUpdate = () => {
               <ValidatedField label={translate('agendaShowsApp.cantor.bio')} id="cantor-bio" name="bio" data-cy="bio" type="textarea" />
               <ValidatedField
                 className="cantor-form__active"
-                label={translate('agendaShowsApp.cantor.ativo')}
+                label={'Disponibilidade'}
                 id="cantor-ativo"
                 name="ativo"
                 data-cy="ativo"
