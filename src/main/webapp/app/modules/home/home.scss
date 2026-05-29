@@ -8,13 +8,51 @@ Main page styles
   background-size: contain;
 }
 
+.home-page {
+  padding: 1rem;
+  max-width: 100%;
+  margin: 0;
+  min-height: calc(100vh - 175px);
+}
+
+.home-page__title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1e2a4a;
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.home-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.home-summary__card {
+  background: #f5f6fa;
+  border-radius: 8px;
+  padding: 1rem;
+
+  .label {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 4px;
+  }
+
+  .value {
+    font-size: 20px;
+    font-weight: 500;
+    color: #1e2a4a;
+  }
+}
+
 .financial-table {
   background: #fff;
   border: 0.5px solid #e0e0e0;
   border-radius: 12px;
   padding: 1.25rem;
-  align-content: center;
-  justify-content: center;
 
   &__header {
     display: flex;
@@ -29,6 +67,7 @@ Main page styles
     font-size: 15px;
     font-weight: 500;
     margin: 0;
+    color: #1e2a4a;
   }
 
   &__filters {
@@ -44,6 +83,11 @@ Main page styles
     background: #f8f8f8;
     color: #333;
     cursor: pointer;
+
+    &:focus {
+      outline: none;
+      border-color: #7b8fff;
+    }
   }
 
   &__table {
@@ -69,6 +113,7 @@ Main page styles
     tbody td {
       padding: 11px 8px;
       border-bottom: 0.5px solid #f0f0f0;
+      color: #1e2a4a;
 
       &:last-child {
         text-align: right;
@@ -78,14 +123,16 @@ Main page styles
     tbody tr:last-child td {
       border-bottom: none;
     }
+
     tbody tr:hover td {
-      background: #f9f9f9;
+      background: #f5f6fa;
     }
 
     tfoot td {
       font-weight: 500;
       padding-top: 12px;
       border-top: 1px solid #ddd;
+      color: #1e2a4a;
 
       &:last-child {
         text-align: right;
@@ -101,6 +148,22 @@ Main page styles
   }
 }
 
-.title-home {
-  padding-bottom: 20px;
+.cantor-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cantor-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #eeedfe;
+  color: #3c3489;
+  font-size: 11px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }

@@ -71,81 +71,105 @@ export const Home = () => {
   const labelMes = (yyyymm: string) => dayjs(yyyymm + '-01').format('MMMM [de] YYYY');
 
   return (
-    <Row>
-      <Col md="10">
-        {account?.login ? (
-          <div>
-            <div className="title-home">
-              <h3 className="show-page__title">Sistema de Shows Austin Produções</h3>
+    <div className="home-page">
+      {account?.login ? (
+        <>
+          <h1 className="home-page__title">Sistema de Shows Austin Produções</h1>
+
+          <div className="home-summary">
+            <div className="home-summary__card">
+              <div className="label">Receita total</div>
+              <div className="value">{fmt(totalReceita)}</div>
             </div>
-            <div className="financial-table">
-              <div className="financial-table__header">
-                <h2 className="financial-table__title">Receita</h2>
-                <div className="financial-table__filters">
-                  <select value={mesSelecionado} onChange={e => setMesSelecionado(e.target.value)} className="financial-table__select">
-                    <option value="">Todos os meses</option>
-                    {mesesDisponiveis.map(m => (
-                      <option key={m} value={m}>
-                        {labelMes(m)}
-                      </option>
-                    ))}
-                  </select>
-                  <select value={localSelecionado} onChange={e => setLocalSelecionado(e.target.value)} className="financial-table__select">
-                    <option value="">Todos os locais</option>
-                    {locaisDisponiveis.map(l => (
-                      <option key={l} value={l}>
-                        {l}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+            <div className="home-summary__card">
+              <div className="label">Cantores</div>
+              <div className="value">{receitaPorCantor.length}</div>
+            </div>
+            <div className="home-summary__card">
+              <div className="label">Shows filtrados</div>
+              <div className="value">{showsFiltrados.length}</div>
+            </div>
+          </div>
+
+          <div className="financial-table">
+            <div className="financial-table__header">
+              <h2 className="financial-table__title">Receita por cantor</h2>
+              <div className="financial-table__filters">
+                <select value={mesSelecionado} onChange={e => setMesSelecionado(e.target.value)} className="financial-table__select">
+                  <option value="">Todos os meses</option>
+                  {mesesDisponiveis.map(m => (
+                    <option key={m} value={m}>
+                      {labelMes(m)}
+                    </option>
+                  ))}
+                </select>
+                <select value={localSelecionado} onChange={e => setLocalSelecionado(e.target.value)} className="financial-table__select">
+                  <option value="">Todos os locais</option>
+                  {locaisDisponiveis.map(l => (
+                    <option key={l} value={l}>
+                      {l}
+                    </option>
+                  ))}
+                </select>
               </div>
-              {receitaPorCantor.length > 0 ? (
-                <table className="financial-table__table">
-                  <thead>
-                    <tr>
-                      <th>Cantor</th>
-                      <th>Receita gerada</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {receitaPorCantor.map(c => (
-                      <tr key={c.nome}>
-                        <td>{c.nome}</td>
-                        <td>{fmt(c.receita)}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                  <tfoot>
-                    <tr>
-                      <td>Total</td>
-                      <td>{fmt(totalReceita)}</td>
-                    </tr>
-                  </tfoot>
-                </table>
-              ) : (
-                <p className="financial-table__empty">Nenhum show encontrado para os filtros selecionados.</p>
-              )}
             </div>
+
+            {receitaPorCantor.length > 0 ? (
+              <table className="financial-table__table">
+                <thead>
+                  <tr>
+                    <th>Cantor</th>
+                    <th>Receita gerada</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {receitaPorCantor.map(c => (
+                    <tr key={c.nome}>
+                      <td>
+                        <div className="cantor-cell">
+                          <div className="cantor-avatar">
+                            {c.nome
+                              .split(' ')
+                              .map(n => n[0])
+                              .slice(0, 2)
+                              .join('')}
+                          </div>
+                          {c.nome}
+                        </div>
+                      </td>
+                      <td>{fmt(c.receita)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td>Total</td>
+                    <td>{fmt(totalReceita)}</td>
+                  </tr>
+                </tfoot>
+              </table>
+            ) : (
+              <p className="financial-table__empty">Nenhum show encontrado para os filtros selecionados.</p>
+            )}
           </div>
-        ) : (
-          <div>
-            <Alert color="warning">
-              <Translate contentKey="global.messages.info.authenticated.prefix">If you want to </Translate>
-              <Link to="/login" className="alert-link">
-                <Translate contentKey="global.messages.info.authenticated.link"> sign in</Translate>
-              </Link>
-            </Alert>
-            <Alert color="warning">
-              <Translate contentKey="global.messages.info.register.noaccount">You do not have an account yet?</Translate>&nbsp;
-              <Link to="/account/register" className="alert-link">
-                <Translate contentKey="global.messages.info.register.link">Register a new account</Translate>
-              </Link>
-            </Alert>
-          </div>
-        )}
-      </Col>
-    </Row>
+        </>
+      ) : (
+        <>
+          <Alert color="warning">
+            <Translate contentKey="global.messages.info.authenticated.prefix">If you want to </Translate>
+            <Link to="/login" className="alert-link">
+              <Translate contentKey="global.messages.info.authenticated.link"> sign in</Translate>
+            </Link>
+          </Alert>
+          <Alert color="warning">
+            <Translate contentKey="global.messages.info.register.noaccount">You do not have an account yet?</Translate>&nbsp;
+            <Link to="/account/register" className="alert-link">
+              <Translate contentKey="global.messages.info.register.link">Register a new account</Translate>
+            </Link>
+          </Alert>
+        </>
+      )}
+    </div>
   );
 };
 
